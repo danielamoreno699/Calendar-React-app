@@ -1,46 +1,32 @@
-const express = require('express')
-const { dbConnection } = require('./database/config')
- require('dotenv').config()
- const cors = require('cors')
+const express = require('express');
+require('dotenv').config();
+const cors = require('cors');
+const { dbConnection } = require('./database/config');
 
+// Crear el servidor de express
+const app = express();
 
+// Base de datos
+dbConnection();
 
-// crear el servidor express
-const app = express()
-
-//base de datos
-dbConnection()
-
-
-//CORS
+// CORS
 app.use(cors())
 
+// Directorio Público
+app.use( express.static('public') );
 
-//directorio publico
-app.use(express.static('public'))
+// Lectura y parseo del body
+app.use( express.json() );
 
-//lectura y parseo de body
-app.use(express.json())
-
-
-//rutas
-app.use('/api/auth', require('./routes/auth'))
-app.use('/api/events', require('./routes/events'))
+// Rutas
+app.use('/api/auth', require('./routes/auth') );
+app.use('/api/events', require('./routes/events') );
 
 
-//ruta
-// app.get('/', (req, res) =>{
-
-//     console.log('se requiere el / ')
-//     res.json({
-//         ok: true
-//     })
 
 
-//})
+// Escuchar peticiones
+app.listen( process.env.PORT, () => {
+    console.log(`Servidor corriendo en puerto ${ process.env.PORT }`);
+});
 
-
-//escuchar peticiones
-app.listen(process.env.PORT, () =>{
-    console.log(`servidor corriendo en puerto ${process.env.PORT}`)
-})

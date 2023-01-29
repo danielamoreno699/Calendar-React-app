@@ -23,7 +23,7 @@ router.use(validarJWT)
 router.get('/',  getEventos)
 
 router.post(
-    '/:id', 
+    '/', 
     [
         check('title', 'el titulo es obligatorio').not().isEmpty(),
         check('start', 'fecha de inicio es obligatorio').custom(isDate),
